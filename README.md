@@ -40,8 +40,3 @@ Credits
 -------
 
 * Developed by [Webgriffe®](http://webgriffe.com)
-
-
-
-
-
