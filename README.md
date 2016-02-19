@@ -25,7 +25,7 @@ Go to `Stores -> Configuration -> Advanced -> Developer -> Debug` and set `Layou
 Then on storefont you'll see block hints as HTML comments. For example:
 
     <!-- [BLOCK BEGIN type="Magento\Customer\Block\Account\RegisterLink\Interceptor" name="register-link"] -->
-    <li><a href="http://wg-store2.docker:8000/customer/account/create/" >Create an Account</a></li>
+    <li><a href="http://my-store.dev/customer/account/create/" >Create an Account</a></li>
     <!-- [BLOCK END type="Magento\Customer\Block\Account\RegisterLink\Interceptor" name="register-link"] -->
     
 In this way block hints do not break page layout and you can leave it always enabled on your development environment.
