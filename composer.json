@@ -1,0 +1,33 @@
+{
+    "name": "webgriffe/module-layout-hints",
+    "description": "Magento 2 module which shows layout hints useful for development",
+    "type": "magento2-module",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Webgriffe SRL",
+            "email": "support@webgriffe.com"
+        }
+    ],
+    "require": {
+        "php": "~5.5.0|~5.6.0|~7.0.0",
+        "magento/framework": "~100.0.0",
+        "magento/module-store": "~100.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "@stable",
+        "squizlabs/php_codesniffer": "^2.5"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://repo.magento.com/"
+        }
+    ],
+    "autoload": {
+        "files": [ "src/registration.php" ],
+        "psr-4": {
+            "Webgriffe\\LayoutHints\\": "src/"
+        }
+    }
+}
