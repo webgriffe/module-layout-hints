@@ -20,10 +20,31 @@ class AbstractBlockPluginTest extends \PHPUnit_Framework_TestCase
         $plugin = new AbstractBlockPlugin($scopeConfig->reveal());
 
         $this->assertEquals(
-            '<!-- [BLOCK BEGIN type="Double\Magento\Framework\View\Element\AbstractBlock\P2" name="block_name"] -->' .
+            '<!-- [BLOCK BEGIN type="Double\Magento\Framework\View\Element\AbstractBlock\P2" name="block_name" template=""] -->' .
             '<p class="html">Hello!</p>' .
-            '<!-- [BLOCK END type="Double\Magento\Framework\View\Element\AbstractBlock\P2" name="block_name"] -->',
+            '<!-- [BLOCK END type="Double\Magento\Framework\View\Element\AbstractBlock\P2" name="block_name" template=""] -->',
             $plugin->aroundToHtml($abstractBlock->reveal(), $proceed)
+        );
+    }
+
+    public function testAroundToHtmlOfTemplateBlockAddsTemplateFile()
+    {
+        $scopeConfig = $this->prophesize('Magento\Framework\App\Config\ScopeConfigInterface');
+        $scopeConfig->isSetFlag('dev/debug/layout_hints_front_enabled', 'store')->willReturn(true);
+        $templateBlock = $this->prophesize('Magento\Framework\View\Element\Template');
+        $templateBlock->getNameInLayout()->willReturn('block_name');
+        $templateBlock->getTemplateFile()->willReturn('/path/to/template.phtml');
+        $proceed = function () {
+            return '<p class="html">Hello!</p>';
+        };
+
+        $plugin = new AbstractBlockPlugin($scopeConfig->reveal());
+
+        $this->assertEquals(
+            '<!-- [BLOCK BEGIN type="Double\Magento\Framework\View\Element\Template\P4" name="block_name" template="/path/to/template.phtml"] -->' .
+            '<p class="html">Hello!</p>' .
+            '<!-- [BLOCK END type="Double\Magento\Framework\View\Element\Template\P4" name="block_name" template="/path/to/template.phtml"] -->',
+            $plugin->aroundToHtml($templateBlock->reveal(), $proceed)
         );
     }
 }

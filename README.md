@@ -42,7 +42,6 @@ In this way block hints do not break page layout and you can leave it always ena
 To Do
 -----
 
-* Template file hints
 * Layout handles hints
 * Hints as HTML block
 

@@ -6,6 +6,7 @@ namespace Webgriffe\LayoutHints;
 use Magento\Catalog\Block\Product\ListProduct;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Framework\View\Element\Template;
 use Magento\Store\Model\ScopeInterface;
 
 class AbstractBlockPlugin
@@ -38,12 +39,21 @@ class AbstractBlockPlugin
     {
         if ($this->scopeConfig->isSetFlag(self::XML_PATH_LAYOUT_HINTS_FRONT_ENABLED, ScopeInterface::SCOPE_STORE)) {
             return sprintf(
-                '<!-- [%s type="%s" name="%s"] -->',
+                '<!-- [%s type="%s" name="%s" template="%s"] -->',
                 $prefix,
                 get_class($subject),
-                $subject->getNameInLayout()
+                $subject->getNameInLayout(),
+                $subject instanceof Template ? $this->relativizeTemplateFile($subject->getTemplateFile()) : ''
             );
         }
         return '';
+    }
+
+    private function relativizeTemplateFile($templateFile)
+    {
+        if (defined('BP')) {
+            return ltrim(str_replace(BP, '', $templateFile), '/');
+        }
+        return $templateFile;
     }
 }
