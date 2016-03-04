@@ -17,6 +17,15 @@ Please, use [Composer](https://getcomposer.org) and add `webgriffe/module-layout
             "url": "https://github.com/webgriffe/module-layout-hints.git"
         }
     ]
+
+Then enable the module and upgrade to be sure that DB install/upgrade runs (if any):
+
+	$ php bin/magento module:enable Webgriffe_LayoutHints
+	$ php bin/magento setup:upgrade
+	
+If you're using `production` or `default` Magento2 mode you need to run Dependency Injection compilation process:
+
+	$ php bin/magento setup:di:compile
     
 Usage
 -----
@@ -33,6 +42,7 @@ In this way block hints do not break page layout and you can leave it always ena
 To Do
 -----
 
+* Template file hints
 * Layout handles hints
 * Hints as HTML block
 
