@@ -20,9 +20,9 @@ class AbstractBlockPluginTest extends \PHPUnit_Framework_TestCase
         $plugin = new AbstractBlockPlugin($scopeConfig->reveal());
 
         $this->assertEquals(
-            '<!-- [BLOCK BEGIN type="Double\Magento\Framework\View\Element\AbstractBlock\P2" name="block_name" template=""] -->' .
+            '<!-- [BLOCK BEGIN type="Magento\Framework\View\Element\AbstractBlock" name="block_name"] -->' .
             '<p class="html">Hello!</p>' .
-            '<!-- [BLOCK END type="Double\Magento\Framework\View\Element\AbstractBlock\P2" name="block_name" template=""] -->',
+            '<!-- [BLOCK END type="Magento\Framework\View\Element\AbstractBlock" name="block_name"] -->',
             $plugin->aroundToHtml($abstractBlock->reveal(), $proceed)
         );
     }
@@ -33,6 +33,7 @@ class AbstractBlockPluginTest extends \PHPUnit_Framework_TestCase
         $scopeConfig->isSetFlag('dev/debug/layout_hints_front_enabled', 'store')->willReturn(true);
         $templateBlock = $this->prophesize('Magento\Framework\View\Element\Template');
         $templateBlock->getNameInLayout()->willReturn('block_name');
+        $templateBlock->getTemplate()->willReturn('Magento_Module::template.phtml');
         $templateBlock->getTemplateFile()->willReturn('/path/to/template.phtml');
         $proceed = function () {
             return '<p class="html">Hello!</p>';
@@ -41,9 +42,9 @@ class AbstractBlockPluginTest extends \PHPUnit_Framework_TestCase
         $plugin = new AbstractBlockPlugin($scopeConfig->reveal());
 
         $this->assertEquals(
-            '<!-- [BLOCK BEGIN type="Double\Magento\Framework\View\Element\Template\P4" name="block_name" template="/path/to/template.phtml"] -->' .
+            '<!-- [BLOCK BEGIN type="Magento\Framework\View\Element\Template" name="block_name" template="Magento_Module::template.phtml" currentTemplate="/path/to/template.phtml"] -->' .
             '<p class="html">Hello!</p>' .
-            '<!-- [BLOCK END type="Double\Magento\Framework\View\Element\Template\P4" name="block_name" template="/path/to/template.phtml"] -->',
+            '<!-- [BLOCK END type="Magento\Framework\View\Element\Template" name="block_name" template="Magento_Module::template.phtml" currentTemplate="/path/to/template.phtml"] -->',
             $plugin->aroundToHtml($templateBlock->reveal(), $proceed)
         );
     }

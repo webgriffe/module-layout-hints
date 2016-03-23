@@ -38,12 +38,21 @@ class AbstractBlockPlugin
     private function formatBlockComment($prefix, AbstractBlock $subject)
     {
         if ($this->scopeConfig->isSetFlag(self::XML_PATH_LAYOUT_HINTS_FRONT_ENABLED, ScopeInterface::SCOPE_STORE)) {
+            if ($subject instanceof Template) {
+                return sprintf(
+                    '<!-- [%s type="%s" name="%s" template="%s" currentTemplate="%s"] -->',
+                    $prefix,
+                    get_parent_class($subject),
+                    $subject->getNameInLayout(),
+                    $subject instanceof Template ? $subject->getTemplate() : '',
+                    $subject instanceof Template ? $this->relativizeTemplateFile($subject->getTemplateFile()) : ''
+                );
+            }
             return sprintf(
-                '<!-- [%s type="%s" name="%s" template="%s"] -->',
+                '<!-- [%s type="%s" name="%s"] -->',
                 $prefix,
-                get_class($subject),
-                $subject->getNameInLayout(),
-                $subject instanceof Template ? $this->relativizeTemplateFile($subject->getTemplateFile()) : ''
+                get_parent_class($subject),
+                $subject->getNameInLayout()                
             );
         }
         return '';
