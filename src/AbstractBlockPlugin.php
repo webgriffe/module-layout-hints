@@ -52,7 +52,7 @@ class AbstractBlockPlugin
                 '<!-- [%s type="%s" name="%s"] -->',
                 $prefix,
                 get_parent_class($subject),
-                $subject->getNameInLayout()                
+                $subject->getNameInLayout()
             );
         }
         return '';
